@@ -1,9 +1,10 @@
-import { Router } from "express";
+import express from 'express';
 import { ajouterOuMettreAJourArticle, getPanier} from '../controllers/panierController';
-const panierRouter = Router();
+
+const panierRouter = express.Router();
 
 panierRouter.post('/', ajouterOuMettreAJourArticle);
 panierRouter.get('/:utilisateur', getPanier);
 
-export default {panierRouter}
+export default panierRouter;
 

@@ -1,9 +1,12 @@
-import { Router } from 'express';
-import { getActualites, createActualite} from '../controllers/actualiteController'
+import express from 'express';
+import { getActualites, createActualite, updateActualite, deleteActualite } from '../controllers/actualiteController.js';
 
-const actualiteRouter = Router()
+const actualiteRouter = express.Router();
 
 actualiteRouter.get('/', getActualites);
-actualiteRouter.post('', createActualite);
+actualiteRouter.post('/', createActualite);
+actualiteRouter.put('/:id', updateActualite);
+actualiteRouter.delete('/:id', deleteActualite);
 
-export {actualiteRouter}
+export default actualiteRouter;
+
