@@ -4,9 +4,6 @@ import express from 'express';
 import cors from "cors";
 import mongoose from "mongoose";
 
-const express = 'express';
-const cors = 'cors';
-const mongoose = 'mongoose';
 
 const app = express();
 
