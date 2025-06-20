@@ -3,12 +3,35 @@ import Produit from "../models/Produit";
 // Obtenir tous les produits
 const getProduits = async (req, res) => {
   try {
-    const produits = await Produit.find().sort({ dateAjout: -1 });
+    const { categorie, minPrix, maxPrix, enStock, recherche } = req.query;
+
+    let filtre = {};
+
+    if (categorie) {
+      filtre.categorie = categorie;
+    }
+
+    if (minPrix || maxPrix) {
+      filtre.prix = {};
+      if (minPrix) filtre.prix.$gte = Number(minPrix);
+      if (maxPrix) filtre.prix.$lte = Number(maxPrix);
+    }
+
+    if (enStock === 'true') {
+      filtre.stock = { $gt: 0 };
+    }
+
+    if (recherche) {
+      filtre.nom = { $regex: recherche, $options: 'i' }; // recherche partielle insensible à la casse
+    }
+
+    const produits = await Produit.find(filtre).sort({ dateAjout: -1 });
     res.status(200).json(produits);
   } catch (error) {
-    res.status(500).json({ message: "Erreur serveur" });
+    res.status(500).json({ message: "Erreur lors de la récupération des produits" });
   }
 };
+
 
 // Ajouter un nouveau produit
 const createProduit = async (req, res) => {
