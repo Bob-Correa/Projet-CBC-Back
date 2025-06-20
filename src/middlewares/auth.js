@@ -1,14 +1,18 @@
-import { jwt } from "jsonwebtoken";
+import jwt from 'jsonwebtoken';
 
-const verifyToken = (req, res, next) =>{
-    const token = req.headers.authorization?.split("")[1];
-    if(!token) return res.status(403).json({message: "Accès refusé"});
+export const verifierAdmin = (req, res, next) => {
+  const auth = req.headers.authorization;
+  if (!auth || !auth.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Accès non autorisé' });
+  }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err,decoded) =>{
-        if (err) return res.status(401).json({message: "Token invalide"});
-        req.user = decoded;
-        next();
-    });
+  const token = auth.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.adminId = decoded.id;
+    next();
+  } catch (err) {
+    res.status(401).json({ message: 'Token invalide' });
+  }
 };
-
-export default {verifyToken};
