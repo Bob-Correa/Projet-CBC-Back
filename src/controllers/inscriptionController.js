@@ -1,6 +1,6 @@
-import Inscription from '../models/inscription.js';
+import Inscription from '../models/Inscription.js';
 
- const creerInscription = async (req, res) => {
+ export const creerInscription = async (req, res) => {
   try {
     const inscription = new Inscription(req.body);
     await inscription.save();
@@ -10,7 +10,7 @@ import Inscription from '../models/inscription.js';
   }
 };
 
- const getInscriptions = async (req, res) => {
+ export const getInscriptions = async (req, res) => {
   try {
     const inscriptions = await Inscription.find().sort({ dateInscription: -1 });
     res.status(200).json(inscriptions);
@@ -18,5 +18,3 @@ import Inscription from '../models/inscription.js';
     res.status(500).json({ message: 'Erreur serveur' });
   }
 };
-
-export default {creerInscription, getInscriptions}

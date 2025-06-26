@@ -1,6 +1,6 @@
-import Match from "../models/Match";
+import Match from "../models/Match.js";
 
-const getMatchs = async (req, res) => {
+export const getMatchs = async (req, res) => {
     try{
         const matchs = await Match.find().sort({date:1});
         res.status(200).json(matchs);    
@@ -9,7 +9,7 @@ const getMatchs = async (req, res) => {
     }
 };
 
-const createMatch = async (req, res) => {
+export const createMatch = async (req, res) => {
     try {
         const { equipeDomicile, equipeExterieur, date, heure, lieu } = req.body;
         const nouveauMatch = new Match({
@@ -27,7 +27,7 @@ const createMatch = async (req, res) => {
   }
 };
 
-const updateMatch = async (req, res) => {
+export const updateMatch = async (req, res) => {
   try {
     const { id } = req.params;
     const { equipeDomicile, equipeExterieur, date, heure, lieu } = req.body;
@@ -48,4 +48,3 @@ const updateMatch = async (req, res) => {
   }
 };
 
-export default {getMatchs, createMatch, updateMatch}

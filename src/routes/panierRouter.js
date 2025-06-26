@@ -1,5 +1,5 @@
 import express from 'express';
-import { ajouterOuMettreAJourArticle, getPanier} from '../controllers/panierController';
+import { ajouterOuMettreAJourArticle, getPanier} from '../controllers/panierController.js';
 
 const panierRouter = express.Router();
 

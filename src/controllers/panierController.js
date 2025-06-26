@@ -1,7 +1,7 @@
-import Panier from "../models/Panier";
+import Panier from "../models/Panier.js";
 
 // Ajouter un article ou en mettre à jour la quantité
-const ajouterOuMettreAJourArticle = async (req, res) => {
+export const ajouterOuMettreAJourArticle = async (req, res) => {
   const { utilisateur, produitId, quantite } = req.body;
   try {
     let panier = await Panier.findOne({ utilisateur });
@@ -28,7 +28,7 @@ const ajouterOuMettreAJourArticle = async (req, res) => {
 };
 
 // Obtenir le panier d’un utilisateur
-const getPanier = async (req, res) => {
+export const getPanier = async (req, res) => {
   try {
     const panier = await Panier.findOne({ utilisateur: req.params.utilisateur }).populate('items.produit');
     if (!panier) return res.status(404).json({ message: "Panier non trouvé" });
@@ -38,7 +38,4 @@ const getPanier = async (req, res) => {
   }
 };
 
-export default {
-  ajouterOuMettreAJourArticle,
-  getPanier
-};
+

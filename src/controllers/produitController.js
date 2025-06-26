@@ -1,7 +1,7 @@
-import Produit from "../models/Produit";
+import Produit from "../models/Produit.js";
 
 // Obtenir tous les produits
-const getProduits = async (req, res) => {
+export const getProduits = async (req, res) => {
   try {
     const { categorie, minPrix, maxPrix, enStock, recherche } = req.query;
 
@@ -25,7 +25,7 @@ const getProduits = async (req, res) => {
       filtre.nom = { $regex: recherche, $options: 'i' }; // recherche partielle insensible à la casse
     }
 
-    const produits = await Produit.find(filtre).sort({ dateAjout: -1 });
+   const produits = await Produit.find(filtre).sort({ dateAjout: -1 });
     res.status(200).json(produits);
   } catch (error) {
     res.status(500).json({ message: "Erreur lors de la récupération des produits" });
@@ -34,19 +34,21 @@ const getProduits = async (req, res) => {
 
 
 // Ajouter un nouveau produit
-const createProduit = async (req, res) => {
+export const createProduit = async (req, res) => {
   try {
     const { nom, description, prix, imageUrl, categorie, stock } = req.body;
     const nouveauProduit = new Produit({ nom, description, prix, imageUrl, categorie, stock });
     await nouveauProduit.save();
     res.status(201).json(nouveauProduit);
   } catch (error) {
-    res.status(400).json({ message: "Erreur lors de la création du produit" });
-  }
+  console.error("Erreur création produit :", error);
+  res.status(400).json({ message: "Erreur lors de la création du produit" });
+}
+
 };
 
 // Mettre à jour un produit
-const updateProduit = async (req, res) => {
+export const updateProduit = async (req, res) => {
   try {
     const { id } = req.params;
     const produitMaj = await Produit.findByIdAndUpdate(id, req.body, { new: true });
@@ -58,7 +60,7 @@ const updateProduit = async (req, res) => {
 };
 
 // Supprimer un produit
-const deleteProduit = async (req, res) => {
+export const deleteProduit = async (req, res) => {
   try {
     const produitSupprimé = await Produit.findByIdAndDelete(req.params.id);
     if (!produitSupprimé) return res.status(404).json({ message: "Produit non trouvé" });
@@ -67,5 +69,3 @@ const deleteProduit = async (req, res) => {
     res.status(500).json({ message: "Erreur lors de la suppression du produit" });
   }
 };
-
-export default {getProduits, createProduit, updateProduit, deleteProduit}

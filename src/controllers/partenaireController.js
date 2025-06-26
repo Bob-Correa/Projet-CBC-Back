@@ -1,4 +1,4 @@
-import Partenaire from '../models/partenaire.js';
+import Partenaire from '../models/Partenaires.js';
 
 export const getPartenaires = async (req, res) => {
   try {

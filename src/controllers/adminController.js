@@ -1,9 +1,9 @@
-import Admin from '../models/admin.js';
+import Admin from '../models/Admin.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 // Créer un nouvel admin (à utiliser avec précaution ou restreindre via un middleware)
- const createAdmin = async (req, res) => {
+ export const createAdmin = async (req, res) => {
   const { nom, email, motDePasse } = req.body;
 
   try {
@@ -20,7 +20,7 @@ import bcrypt from 'bcrypt';
 };
 
 // Connexion d’un admin et génération du token JWT
- const loginAdmin = async (req, res) => {
+ export const loginAdmin = async (req, res) => {
   const { email, motDePasse } = req.body;
 
   try {
@@ -38,7 +38,7 @@ import bcrypt from 'bcrypt';
 };
 
 // Optionnel : afficher les infos de l'admin connecté
- const getProfilAdmin = async (req, res) => {
+ export const getProfilAdmin = async (req, res) => {
   try {
     const admin = await Admin.findById(req.adminId).select('-motDePasse');
     if (!admin) return res.status(404).json({ message: 'Admin non trouvé' });
@@ -47,5 +47,3 @@ import bcrypt from 'bcrypt';
     res.status(500).json({ message: 'Erreur lors de la récupération du profil' });
   }
 };
-
-export default {createAdmin,loginAdmin, getProfilAdmin}

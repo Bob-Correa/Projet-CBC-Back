@@ -5,7 +5,7 @@ import {
   getProfilAdmin
 } from '../controllers/adminController.js';
 
-import { verifierAdmin } from '../middleware/auth.js';
+import { verifierAdmin } from '../middlewares/auth.js';
 
 const adminRouter = express.Router();
 
