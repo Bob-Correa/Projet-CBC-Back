@@ -4,12 +4,15 @@ import express from 'express';
 import cors from "cors";
 import mongoose from "mongoose";
 import apiRoutes from './src/routes/index.js'
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
 //Config middleware
 app.use(express.json());
 app.use(cors());
+
+app.use(cookieParser());
 
 //Config routes
 app.use('/api',apiRoutes);
