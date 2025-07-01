@@ -17,6 +17,15 @@ const inscriptionSchema = new mongoose.Schema({
   dateInscription: { type: Date, default: Date.now }, 
   email: { type: String, required: true },
   telephone: String,
+  validee: { type: Boolean, default: false },
+  dateValidation: Date,
+  modePaiement: {
+    type: [String],
+    enum: ['Chèque', 'Espèces', 'Virement', 'Carte bancaire',' carte CJeune', 'Cheque CAF'],
+    required: true
+  },
+  numeroCarteCJeune: String,    
+
 });
 
 export default mongoose.model('Inscription', inscriptionSchema);

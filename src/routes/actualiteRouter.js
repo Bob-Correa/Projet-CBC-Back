@@ -1,7 +1,7 @@
 import express from 'express';
 import { getActualites, createActualite, updateActualite, deleteActualite } from '../controllers/actualiteController.js';
 import { verifierAdmin } from '../middlewares/auth.js';
-import { upload } from '../middlewares/upload.js';
+import { upload  } from '../middlewares/upload.js';
 
 const actualiteRouter = express.Router();
 
