@@ -1,5 +1,5 @@
 import express from 'express';
-import { getActualites, createActualite, updateActualite, deleteActualite } from '../controllers/actualiteController.js';
+import { getActualites, createActualite, updateActualite, deleteActualite, getActualitesDernieres } from '../controllers/actualiteController.js';
 import { verifierAdmin } from '../middlewares/auth.js';
 import { upload  } from '../middlewares/upload.js';
 

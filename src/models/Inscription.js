@@ -13,6 +13,26 @@ const inscriptionSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
+  nomRL1: { type: String, required: true }, // Responsable légal 1
+  prenomRL1: { type: String, required: true }, // Prénom Responsable légal 1
+  nomRL2: String, // Responsable légal 2 (optionnel)
+  prenomRL2: String, // Prénom Responsable légal 2 (optionnel)
+  emailRL1: { type: String, required: true }, // Email Responsable légal 1
+  emailRL2: String, // Email Responsable légal 2 (optionnel)
+  telephoneRL1: { type: String, required: true }, // Téléphone Responsable légal 1
+  telephoneRL2: String, // Téléphone Responsable légal 2 (optionnel)    
+  adresse: {
+    type: String,
+    required: true
+  },
+  codePostal: {
+    type: String,
+    required: true
+  },
+  ville: {
+    type: String,
+    required: true
+  },
   commentaire: String,
   dateInscription: { type: Date, default: Date.now }, 
   email: { type: String, required: true },

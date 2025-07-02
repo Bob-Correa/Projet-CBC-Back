@@ -10,7 +10,10 @@ const app = express();
 
 //Config middleware
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3001', // ✅ ton frontend
+  credentials: true                // ✅ autorise les cookies / headers d'auth
+}));
 
 app.use(cookieParser());
 

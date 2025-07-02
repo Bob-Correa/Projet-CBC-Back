@@ -13,7 +13,7 @@ export const getActualites = async (req,res) => {
 export async function getActualitesDernieres() {
   return await Actualite.find()
     .sort({ datePublication: -1 })
-    .limit(5);
+    .limit(11);
 }
 
 

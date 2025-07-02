@@ -1,11 +1,13 @@
 import express from 'express';
+// Import des contrôleurs
 import {
   createAdmin,
   loginAdmin,
   getProfilAdmin, refreshAccessToken
 } from '../controllers/adminController.js';
-
+// Import du middleware d'authentification
 import { verifierAdmin, } from '../middlewares/auth.js';
+
 
 const adminRouter = express.Router();
 

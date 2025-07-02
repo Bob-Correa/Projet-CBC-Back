@@ -53,12 +53,13 @@ export const loginAdmin = async (req, res) => {
         maxAge: 7 * 24 * 60 * 60 * 1000 // 7 jours
       })
       .status(200)
-      .json({ accessToken });
+      .json({ token:accessToken });
 
   } catch (error) {
-    console.error("❌ Erreur login admin :", error.message);
-    res.status(500).json({ message: 'Erreur lors de la connexion' });
-  }
+  console.error("❌ Erreur login admin :", error);
+  res.status(500).json({ message: 'Erreur lors de la connexion' });
+}
+
 };
 
 
