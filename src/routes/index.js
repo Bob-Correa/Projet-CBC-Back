@@ -6,7 +6,8 @@ import matchRouter from './matchRouter.js';
 import actualiteRouter from './actualiteRouter.js';
 import partenairesRouter from './partenairesRouter.js';
 import adminRouter from './adminRouter.js';
-import inscriptionRoutes from './inscriptionRouter.js';
+import inscriptionRouter from './inscriptionRouter.js';
+
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.use('/matchs',matchRouter);
 router.use('/actualites', actualiteRouter);
 router.use('/partenaires', partenairesRouter);
 router.use('/admin', adminRouter);
-router.use('/inscriptions', inscriptionRoutes);
+router.use('/inscriptions', inscriptionRouter);
+
 
 export default router;
