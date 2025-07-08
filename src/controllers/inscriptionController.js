@@ -1,4 +1,5 @@
 import Inscription from '../models/Inscription.js';
+import PDFDocument from 'pdfkit';
 
 // 🆕 Créer une inscription
 export const creerInscription = async (req, res) => {
@@ -125,3 +126,48 @@ export const getInscriptionsEnAttente = async (req, res) => {
     res.status(500).json({ message: 'Erreur serveur', error: err.message });
   }
 }
+// 📄 Exporter une inscription en PDF
+export const exportInscriptionPDF = async (req, res) => {
+  try {
+    const inscription = await Inscription.findById(req.params.id);
+    if (!inscription) return res.status(404).json({ message: 'Inscription introuvable' });
+
+    const doc = new PDFDocument();
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename=inscription_${inscription.nom}.pdf`);
+    doc.pipe(res);
+
+    doc.fontSize(18).text('📋 Fiche d’inscription', { align: 'center' });
+    doc.moveDown();
+
+    doc.fontSize(12);
+    doc.text(`Nom : ${inscription.nom}`);
+    doc.text(`Prénom : ${inscription.prenom}`);
+    doc.text(`Sexe : ${inscription.sexe}`);
+    doc.text(`Date de naissance : ${new Date(inscription.dateNaissance).toLocaleDateString()}`);
+    doc.text(`Catégorie : ${inscription.categorie}`);
+    doc.text(`Cotisation : ${inscription.cotisation} €`);
+    doc.text(`Type d’adhésion : ${inscription.typeAdhesion}`);
+    doc.text(`Email : ${inscription.email}`);
+    doc.text(`Téléphone : ${inscription.telephone}`);
+    doc.text(`Adresse : ${inscription.adresse}, ${inscription.codePostal} ${inscription.ville}`);
+    doc.text(`Modes de paiement : ${inscription.modePaiement.join(', ')}`);
+
+    if (inscription.numeroCarteCJeune) {
+      doc.text(`Carte CJeune : ${inscription.numeroCarteCJeune}`);
+    }
+
+    if (inscription.representants && inscription.representants.length > 0) {
+      doc.moveDown();
+      doc.text('👨‍👩‍👧 Représentants légaux :');
+      inscription.representants.forEach((rl, index) => {
+        doc.text(`- RL${index + 1} : ${rl.prenom} ${rl.nom}, ${rl.email}, ${rl.telephone}`);
+      });
+    }
+
+    doc.end();
+  } catch (err) {
+    res.status(500).json({ message: 'Erreur lors de la génération du PDF', error: err.message });
+  }
+};
+

@@ -10,7 +10,8 @@ import {
   getInscriptionsValidees,
   getInscriptionsNonValidees,
   getInscriptionsRefusees,
-  getInscriptionsEnAttente
+  getInscriptionsEnAttente,
+  exportInscriptionPDF
 } from '../controllers/inscriptionController.js';
 
 import { verifierAdmin } from '../middlewares/auth.js'; // facultatif si tu veux sécuriser certaines routes
@@ -50,6 +51,9 @@ inscriptionRouter.get('/statut/refusees', verifierAdmin, getInscriptionsRefusees
 inscriptionRouter.get('/statut/validees', verifierAdmin, getInscriptionsValidees);
 // 📋 Inscriptions non validées
 inscriptionRouter.get('/statut/non-validees', verifierAdmin, getInscriptionsNonValidees);
+// 📄 Exporter une inscription en PDF
+inscriptionRouter.get('/:id/pdf', verifierAdmin, exportInscriptionPDF);
+
 
 export default inscriptionRouter;
 
