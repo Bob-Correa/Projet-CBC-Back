@@ -7,6 +7,7 @@ import actualiteRouter from './actualiteRouter.js';
 import partenairesRouter from './partenairesRouter.js';
 import adminRouter from './adminRouter.js';
 import inscriptionRouter from './inscriptionRouter.js';
+import calendrierRouter from './calendrierRouter.js';
 
 
 const router = express.Router();
@@ -18,6 +19,7 @@ router.use('/actualites', actualiteRouter);
 router.use('/partenaires', partenairesRouter);
 router.use('/admin', adminRouter);
 router.use('/inscriptions', inscriptionRouter);
+router.use('/calendrier', calendrierRouter);
 
 
 export default router;

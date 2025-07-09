@@ -11,10 +11,9 @@ const app = express();
 //Config middleware
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3001', // ✅ ton frontend
-  credentials: true                // ✅ autorise les cookies / headers d'auth
+  origin: ['http://localhost:3001', 'http://localhost:3002'], // ✅ Ajoute les deux origines
+  credentials: true
 }));
-
 app.use(cookieParser());
 
 //Config routes
