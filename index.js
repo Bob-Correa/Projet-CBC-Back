@@ -19,7 +19,7 @@ app.use(cookieParser());
 //Config routes
 app.use('/api',apiRoutes);
 
-
+app.use(express.static('public'));
 
 
 // Connexion a MongoDB

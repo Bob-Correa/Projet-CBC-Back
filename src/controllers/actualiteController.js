@@ -26,7 +26,18 @@ export const createActualite = async (req, res) => {
     }
 
     // Récupérer le chemin de l’image si elle existe
-    const image = req.file ? `/uploads/${req.file.filename}` : null;
+    const image = req.file
+  ? `/uploads/${req.file.filename}`                    // 📤 image uploadée
+  : req.body.image?.startsWith('/uploads/')
+    ? req.body.image                                  // 📁 image existante
+    : null;
+    if (!image) {
+      return res.status(400).json({ message: "Image requise." });
+      
+    }
+    console.log("🖼️ Image uploadée :", req.file);
+console.log("🗂️ Image depuis body :", req.body.image);
+
     const slug = slugify(titre, { lower: true, strict: true });
 
     const nouvelleActualite = new Actualite({ titre, contenu, image, slug });
@@ -38,6 +49,11 @@ export const createActualite = async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Impossible d'ajouter l'actualité" });
   }
+  console.log("📎 Fichier reçu :", req.file);
+  console.log("📝 Contenu de l'actualité :", req.body);
+  console.log("🔗 Chemin de l'image :", req.file ? `/uploads/${req
+.file.filename}` : "Aucune image");
+  console.log("🔖 Slug généré :", slugify(titre, { lower  :true, strict: true }));
 };
 
 
