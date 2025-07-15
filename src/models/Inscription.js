@@ -4,7 +4,7 @@ const inscriptionSchema = new mongoose.Schema({
 
   typeAdhesion: {
   type: String,
-  enum: ['nouvelle', 'renouvellement'],
+  enum: ['Nouvelle', 'Renouvellement'],
   required: true
 },
 

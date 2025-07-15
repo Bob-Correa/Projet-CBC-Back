@@ -23,4 +23,11 @@ adminRouter.get('/profil', verifierAdmin, getProfilAdmin);
 //refresh Token
 adminRouter.post('/token', refreshAccessToken);
 
+adminRouter.get('/ping', (req, res) => {
+  res.json({ message: 'adminRouter fonctionne ✅' });
+});
+
+
+
+
 export default adminRouter;

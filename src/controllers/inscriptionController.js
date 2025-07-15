@@ -1,16 +1,60 @@
+import Joi from 'joi';
 import Inscription from '../models/Inscription.js';
 import PDFDocument from 'pdfkit';
 
+
+
+// Validation schema for inscription
+export const inscriptionSchema = Joi.object({
+  statut: Joi.string().valid("en attente", "validée", "refusée").default("en attente"),
+  typeAdhesion: Joi.string().valid("Nouvelle", "Renouvellement").required(),
+  nom: Joi.string().min(2).required(),
+  prenom: Joi.string().min(2).required(),
+  sexe: Joi.string().valid("masculin", "feminin").required(),
+  dateNaissance: Joi.date().greater('1-1-1950').required(),
+  categorie: Joi.string().required(),
+  cotisation: Joi.number().required(),
+  adresse: Joi.string().required(),
+  codePostal: Joi.string().length(5).pattern(/^\d+$/).required(),
+  ville: Joi.string().required(),
+  email: Joi.string().email().required(),
+  telephone: Joi.string().length(10).pattern(/^\d+$/).required(),
+  commentaire: Joi.string().allow(''),
+  modePaiement: Joi.array().items(Joi.string()).required(),
+  numeroCarteCJeune: Joi.string().allow(''),
+  representants: Joi.array().items(
+    Joi.object({
+      nom: Joi.string().min(2).required(),
+      prenom: Joi.string().min(2).required(),
+      email: Joi.string().email().required(),
+      telephone: Joi.string().length(10).pattern(/^\d+$/).required()
+    
+    })
+
+  )
+});
+
+
 // 🆕 Créer une inscription
 export const creerInscription = async (req, res) => {
+  const { error, value } = inscriptionSchema.validate(req.body, { abortEarly: false });
+
+  if (error) {
+    const messages = error.details.map(detail => detail.message);
+    return res.status(400).json({ message: messages.join(" | ") });
+  }
+
   try {
-    const inscription = new Inscription(req.body);
+    const inscription = new Inscription(value); // 👈 utilise les données validées
     await inscription.save();
     res.status(201).json(inscription);
   } catch (err) {
-    res.status(400).json({ message: 'Erreur lors de l’enregistrement', error: err.message });
-  }
+  console.error("🧨 Erreur backend :", err); // Log complet
+  res.status(500).json({ message: "Erreur lors de l’enregistrement", error: err.message });
+}
+
 };
+
 
 // 📥 Liste complète
 export const getInscriptions = async (req, res) => {

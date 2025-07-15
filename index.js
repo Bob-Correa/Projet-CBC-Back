@@ -21,6 +21,7 @@ app.use('/api',apiRoutes);
 
 
 
+
 // Connexion a MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✌️ connection reussi à la base de donnée'))
