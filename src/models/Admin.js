@@ -5,7 +5,7 @@ const adminSchema = new mongoose.Schema({
   nom: String,
   email: { type: String, required: true, unique: true },
   motDePasse: { type: String, required: true },
-  role: { type: String, enum: ['admin'], default: 'admin' } // champ ajouté
+  role: { type: String, enum: ['admin','superadmin'], default: 'admin' } // champ ajouté
 });
 
 // Hachage du mot de passe avant sauvegarde

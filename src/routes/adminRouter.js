@@ -3,16 +3,27 @@ import express from 'express';
 import {
   createAdmin,
   loginAdmin,
-  getProfilAdmin, refreshAccessToken
+  getProfilAdmin, refreshAccessToken, getTousLesAdmins, modifierRoleAdmin, supprimerAdmin
 } from '../controllers/adminController.js';
 // Import du middleware d'authentification
-import { verifierAdmin, } from '../middlewares/auth.js';
+import { verifierAdmin, requireRole } from '../middlewares/auth.js';
 
 
 const adminRouter = express.Router();
 
 // Créer un nouvel admin (à utiliser avec précaution)
-adminRouter.post('/register', createAdmin);
+adminRouter.post('/register',verifierAdmin, requireRole('superadmin'), createAdmin);
+// ⚠️ Route publique pour créer un admin — à désactiver en production
+adminRouter.post('/create', createAdmin);
+
+// Obtenir tous les admins (protégé)
+adminRouter.get('/all', verifierAdmin, requireRole('superadmin'), getTousLesAdmins);
+// Modifier le rôle d'un admin (protégé)
+adminRouter.get('/profil/:id', verifierAdmin, getProfilAdmin);
+adminRouter.put('/role/:id', verifierAdmin, requireRole('superadmin'), modifierRoleAdmin);
+// Supprimer un admin (protégé)
+// Note : Assurez-vous de bien gérer la suppression du superadmin pour éviter les erreurs
+adminRouter.delete('/:id', verifierAdmin, requireRole('superadmin'), supprimerAdmin);
 
 // Connexion de l'admin
 adminRouter.post('/login', loginAdmin);

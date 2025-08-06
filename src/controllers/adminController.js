@@ -17,6 +17,9 @@ import bcrypt from 'bcrypt';
   } catch (error) {
     res.status(500).json({ message: 'Erreur serveur lors de la création de l’admin' });
   }
+  const nouvelAdmin = await AdminModel.create({ nom, email, motDePasse, role: 'admin' });
+console.log('🧾 Admin enregistré en base :', nouvelAdmin);
+
 };
 
 // Connexion d’un admin et génération du token JWT
@@ -33,7 +36,7 @@ export const loginAdmin = async (req, res) => {
 
     // 🔐 Génération des tokens
     const accessToken = jwt.sign(
-      { id: admin._id },
+      { id: admin._id, role: admin.role },
       process.env.JWT_SECRET,
       { expiresIn: '15m' }
     );
@@ -93,5 +96,43 @@ export const refreshAccessToken = (req, res) => {
   } catch (err) {
     console.error('❌ Erreur de vérification du refresh token :', err.message);
     res.status(403).json({ message: 'Refresh token invalide ou expiré' });
+  }
+};
+export const getTousLesAdmins = async (req, res) => {
+  try {
+    const admins = await Admin.find().select('-motDePasse');
+    res.status(200).json(admins);
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la récupération des admins' });
+  }
+};
+export const modifierRoleAdmin = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  if (!['admin', 'superadmin'].includes(role)) {
+    return res.status(400).json({ message: 'Rôle invalide' });
+  }
+
+  try {
+    const admin = await Admin.findByIdAndUpdate(id, { role }, { new: true }).select('-motDePasse');
+    res.status(200).json({ message: 'Rôle mis à jour', admin });
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la mise à jour du rôle' });
+  }
+};
+export const supprimerAdmin = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const admin = await Admin.findByIdAndDelete(id);
+    if (!admin) return res.status(404).json({ message: 'Admin non trouvé' });
+    res.status(200).json({ message: 'Admin supprimé avec succès' });
+    if (req.adminId === id) {
+  return res.status(403).json({ message: 'Impossible de supprimer votre propre compte.' });
+}
+
+  } catch (error) {
+    res.status(500).json({ message: 'Erreur lors de la suppression de l’admin' });
   }
 };
