@@ -1,8 +1,12 @@
 import Joi from 'joi';
 import Inscription from '../models/Inscription.js';
 import PDFDocument from 'pdfkit';
+import dayjs from 'dayjs';
 
 
+const estMineur = (date) => {
+  return dayjs().diff(dayjs(date), 'year') < 18;
+};
 
 // Validation schema for inscription
 export const inscriptionSchema = Joi.object({
@@ -17,8 +21,17 @@ export const inscriptionSchema = Joi.object({
   adresse: Joi.string().required(),
   codePostal: Joi.string().length(5).pattern(/^\d+$/).required(),
   ville: Joi.string().required(),
-  email: Joi.string().email().required(),
-  telephone: Joi.string().length(10).pattern(/^\d+$/).required(),
+  // 👇 Email conditionnel selon dateNaissance
+  email: Joi.alternatives().conditional('dateNaissance', {
+    is: Joi.date().greater('1-1-1950').less(dayjs().subtract(18, 'year').toDate()),
+    then: Joi.string().email().required(),
+    otherwise: Joi.string().email().allow('').optional()
+  }),
+  telephone: Joi.alternatives().conditional('dateNaissance', {
+    is: Joi.date().greater('1-1-1950').less(dayjs().subtract(18, 'year').toDate()),
+    then: Joi.string().length(10).pattern(/^\d+$/).required(),
+    otherwise: Joi.string().allow('').optional()
+  }),
   commentaire: Joi.string().allow(''),
   modePaiement: Joi.array().items(Joi.string()).required(),
   numeroCarteCJeune: Joi.string().allow(''),

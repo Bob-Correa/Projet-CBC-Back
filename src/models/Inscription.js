@@ -24,8 +24,27 @@ const inscriptionSchema = new mongoose.Schema({
   codePostal: { type: String, required: true },
   ville: { type: String, required: true },
 
-  email: { type: String, required: true, lowercase: true, trim: true },
-  telephone: { type: String, required: true },
+  email: {
+    type: String,
+    validate: {
+      validator: function (v) {
+        // Si la personne est mineure, email peut être vide
+        const age = new Date().getFullYear() - new Date(this.dateNaissance).getFullYear();
+        return age < 18 ? true : v && v.length > 0;
+      },
+      message: 'Email requis pour les majeurs'
+    }
+  },
+  telephone: {
+    type: String,
+    validate: {
+      validator: function (v) {
+        const age = new Date().getFullYear() - new Date(this.dateNaissance).getFullYear();
+        return age < 18 ? true : v && v.length > 0;
+      },
+      message: 'Téléphone requis pour les majeurs'
+    }
+  },
   commentaire: { type: String },
   
 
