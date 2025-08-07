@@ -82,10 +82,13 @@ export const updateActualite = async (req, res) => {
 export const getActualiteById = async (req, res) => {
   try {
     const actualite = await Actualite.findById(req.params.id);
-    if (!actualite) return res.status(404).json({ message: "Actualité non trouvée" });
-    res.status(200).json(actualite);
-  } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération de l'actualité" });
+    if (!actualite) {
+      return res.status(404).json({ message: "Actualité introuvable" });
+    }
+    res.json(actualite);
+  } catch (err) {
+    console.error("❌ Erreur serveur :", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 export const getActualiteBySlug = async (req, res) => {
