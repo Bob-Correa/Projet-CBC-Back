@@ -11,7 +11,7 @@ const app = express();
 //Config middleware
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:3002'], // ✅ Ajoute les deux origines
+  origin: ['http://localhost:3001', 'http://craubc.fr'], // ✅ Ajoute les deux origines
   credentials: true
 }));
 app.use(cookieParser());
