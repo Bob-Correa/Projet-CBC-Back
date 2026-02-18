@@ -8,7 +8,11 @@ import {
 
 const router = express.Router();
 
-router.get('/', getPartenaires);
+router.get('/', (req, res, next) => {
+  console.log("Route /api/partenaires appelée !");
+  next();
+}, getPartenaires);
+
 router.post('/', createPartenaire);
 router.put('/:id', updatePartenaire);
 router.delete('/:id', deletePartenaire);
