@@ -10,15 +10,13 @@ const inscriptionSchema = new mongoose.Schema({
 
   nom: { type: String, required: true },
   prenom: { type: String, required: true },
-  sexe: {
-    type: String,
-    enum: ['masculin', 'feminin'],
-    required: true
-  },
+  
   sexe: { type: String, enum: ['masculin', 'feminin'], required: true },
   dateNaissance: { type: Date, required: true },
+  taille: { type: Number, required: true },
   categorie: { type: String, required: true },
   cotisation: { type: Number, required: true },
+  NumeroMaillot: { type: String, required: true },
 
   adresse: { type: String, required: true },
   codePostal: { type: String, required: true },

@@ -15,9 +15,13 @@ export const inscriptionSchema = Joi.object({
   nom: Joi.string().min(2).required(),
   prenom: Joi.string().min(2).required(),
   sexe: Joi.string().valid("masculin", "feminin").required(),
+  taille: Joi.number(),
+  // 👇 Date de naissance doit être postérieure à 1950
   dateNaissance: Joi.date().greater('1-1-1950').required(),
   categorie: Joi.string().required(),
   cotisation: Joi.number().required(),
+  NumeroMaillot: Joi.string().required().optional(),
+  // 👇 Adresse, code postal et ville sont requis
   adresse: Joi.string().required(),
   codePostal: Joi.string().length(5).pattern(/^\d+$/).required(),
   ville: Joi.string().required(),
@@ -201,9 +205,11 @@ export const exportInscriptionPDF = async (req, res) => {
     doc.text(`Nom : ${inscription.nom}`);
     doc.text(`Prénom : ${inscription.prenom}`);
     doc.text(`Sexe : ${inscription.sexe}`);
+    doc.text(`Taille : ${inscription.taille} cm`);
     doc.text(`Date de naissance : ${new Date(inscription.dateNaissance).toLocaleDateString()}`);
     doc.text(`Catégorie : ${inscription.categorie}`);
     doc.text(`Cotisation : ${inscription.cotisation} €`);
+    doc.text(`Numéro de maillot : ${inscription.NumeroMaillot}`);
     doc.text(`Type d’adhésion : ${inscription.typeAdhesion}`);
     doc.text(`Email : ${inscription.email}`);
     doc.text(`Téléphone : ${inscription.telephone}`);
