@@ -17,14 +17,6 @@ app.use(cors({
 }));
 app.use(cookieParser());
 
-// Routes
-app.use('/api', apiRoutes);
-
-// 404
-app.use((req, res) => {
-  res.status(404).json({ error: "Route introuvable" });
-});
-
 // Connexion MongoDB (une seule fois)
 let isConnected = false;
 
@@ -38,6 +30,14 @@ async function connectDB() {
 app.use(async (req, res, next) => {
   await connectDB();
   next();
+});
+
+// Routes
+app.use('/api', apiRoutes);
+
+// 404
+app.use((req, res) => {
+  res.status(404).json({ error: "Route introuvable" });
 });
 
 export const handler = serverless(app);
