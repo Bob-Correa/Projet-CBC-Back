@@ -12,7 +12,7 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cors({
-  origin: ['http://localhost:3001', 'https://craubc.fr'],
+  origin: ['https://cbc-front.netlify.app', 'https://craubc.fr', 'http://localhost:3001'],
   credentials: true
 }));
 app.use(cookieParser());
