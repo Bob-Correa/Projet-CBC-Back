@@ -5,7 +5,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import serverless from "serverless-http";
-import apiRoutes from "../../backend/src/routes/index.js";
+import apiRoutes from "../../src/routes/index.js";
 
 const app = express();
 
