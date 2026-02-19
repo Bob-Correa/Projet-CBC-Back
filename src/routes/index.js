@@ -25,6 +25,17 @@ router.use('/inscriptions', inscriptionRouter);
 router.use('/calendrier', calendrierRouter);
 router.use('/media', mediarouter);
 
+console.log({
+  produitRouter,
+  panierRouter,
+  matchRouter,
+  actualiteRouter,
+  partenairesRouter,
+  adminRouter,
+  inscriptionRouter,
+  calendrierRouter,
+  mediarouter
+});
 
 
 export default router;
